@@ -1,0 +1,23 @@
+params:
+  - id: admin_user
+    type: string
+    name: "Admin User"
+    description: "Initial admin username for FeedLore"
+    default_value: "admin"
+    optional: true
+
+  - id: admin_pass
+    type: secret
+    name: "Admin Password"
+    description: "Initial admin password (auto-generated)"
+    default_value: "$random(len=20)"
+    optional: true
+
+locales:
+  zh:
+    admin_user:
+      name: "管理员用户名"
+      description: "笺川初始管理员用户名"
+    admin_pass:
+      name: "管理员密码"
+      description: "笺川初始管理员密码（自动生成）"

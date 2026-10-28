@@ -1,0 +1,64 @@
+application:
+  subdomain: feedlore
+  multi_instance: false
+  public_path:
+    - /
+  upstreams:
+    - location: /
+      backend: http://app:3000/
+  injects:
+    # 部署参数预置初始账号，登录页自动填充
+    - id: login-autofill
+      when:
+        - /
+        - /login
+      do:
+        - src: builtin://simple-inject-password
+          params:
+            user: "{{ .U.admin_user }}"
+            password: "{{ .U.admin_pass }}"
+
+services:
+  app:
+    # upstream: ghcr.io/chensnails/feedlore:1.5.1
+    image: ghcr.1ms.run/chensnails/feedlore:1.5.1
+    environment:
+      - TZ=Asia/Shanghai
+      - PORT=3000
+      - DATABASE_URL=postgres://feedlore:{{ stable_secret "db_password" }}@db:5432/feedlore
+      - ADMIN_USER={{ .U.admin_user }}
+      - ADMIN_PASS={{ .U.admin_pass }}
+      - REFRESH_MINUTES=30
+      - KEEP_PER_FEED=300
+      - KEEP_DAYS=0
+      - AUTO_REFRESH_MINUTES=0
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O- http://127.0.0.1:3000/ >/dev/null 2>&1 || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
+    depends_on:
+      - db
+
+  db:
+    # upstream: docker.io/library/postgres:18.4-alpine
+    image: docker.1ms.run/library/postgres:18.4-alpine
+    environment:
+      - TZ=Asia/Shanghai
+      - POSTGRES_DB=feedlore
+      - POSTGRES_USER=feedlore
+      - POSTGRES_PASSWORD={{ stable_secret "db_password" }}
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U feedlore -d feedlore"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 20s
+    binds:
+      - /lzcapp/var/pgdata:/var/lib/postgresql/data
+
+usage: |
+  笺川（FeedLore）是自托管 RSS 阅读器与资源卡片墙。默认账号密码为部署时生成的管理员凭据（登录页会自动填充）。
+  AI 日报与大模型功能在各用户「设置 → 模型」里自行填写 API Key。

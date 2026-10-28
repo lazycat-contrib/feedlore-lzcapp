@@ -1,0 +1,18 @@
+package: community.lazycat.app.feedlore
+version: 1.5.1
+name: FeedLore
+description: Self-hosted RSS reader with resource card wall, built with Node and PostgreSQL
+min_os_version: "1.5.0"
+homepage: https://github.com/chensnails/FeedLore
+author: chensnails
+license: MIT
+permissions:
+  required:
+    - net.internet
+locales:
+  zh:
+    name: 笺川
+    description: 自托管 RSS 阅读器与资源卡片墙，支持 AI 日报与全文抓取
+  en:
+    name: FeedLore
+    description: Self-hosted RSS reader with resource card wall
