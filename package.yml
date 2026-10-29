@@ -1,5 +1,5 @@
 package: community.lazycat.app.feedlore
-version: 1.5.1
+version: 1.7.4
 name: FeedLore
 description: Self-hosted RSS reader with resource card wall, built with Node and PostgreSQL
 min_os_version: "1.5.0"
