@@ -19,8 +19,8 @@ application:
             password: "{{ .U.admin_pass }}"
 services:
   app:
-    # upstream: ghcr.io/chensnails/feedlore:1.7.4
-    image: ghcr.1ms.run/chensnails/feedlore:1.7.4
+    # upstream: ghcr.io/chensnails/feedlore:2.0.2
+    image: ghcr.1ms.run/chensnails/feedlore:2.0.2
     environment:
       - TZ=Asia/Shanghai
       - PORT=3000
