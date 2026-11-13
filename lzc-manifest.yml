@@ -19,8 +19,8 @@ application:
             password: "{{ .U.admin_pass }}"
 services:
   app:
-    # upstream: ghcr.io/chensnails/feedlore:2.4.3
-    image: ghcr.1ms.run/chensnails/feedlore:2.4.3
+    # upstream: ghcr.io/chensnails/feedlore:2.4.5
+    image: ghcr.1ms.run/chensnails/feedlore:2.4.5
     environment:
       - TZ=Asia/Shanghai
       - PORT=3000
@@ -40,8 +40,8 @@ services:
     depends_on:
       - db
   db:
-    # upstream: docker.io/library/postgres:18.6-alpine
-    image: docker.1ms.run/library/postgres:18.6-alpine
+    # upstream: docker.io/library/postgres:18.7-alpine
+    image: docker.1ms.run/library/postgres:18.7-alpine
     environment:
       - TZ=Asia/Shanghai
       - POSTGRES_DB=feedlore
